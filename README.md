@@ -11,7 +11,7 @@ Tired of integrating axios in Vue.js projects time to time. This plugin package 
 #### Install
 
 ```bash
-npm i axios-vue -D
+npm i axios-vue -S
 ```
 
 #### Use in Vue projects' main or index file
