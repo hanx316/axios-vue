@@ -1,71 +1,46 @@
 import axios from 'axios'
 
 export default {
-  install(Vue, { configs = {}, interceptors = {} } = {}) {
-    const FN = 'function'
-    const { request, requestError, response, responseError } = interceptors
-    const requestInterceptor = typeof request === FN || this._requestInterceptor
-    const requestErrorInterceptor = typeof requestError === FN || this._requestErrorInterceptor
-    const responseInterceptor = typeof response === FN || this._responseInterceptor
-    const responseErrorInterceptor = typeof responseError === FN || this._responseErrorInterceptor
+  install(Vue, options) {
+    const { globalDefaults = {}, defaults = {}, interceptors = {} } = options
 
-    const _axios = this._axios = axios.create(configs)
-    this._axios.interceptors.request.use(requestInterceptor, requestErrorInterceptor)
-    this._axios.interceptors.response.use(responseInterceptor, responseErrorInterceptor)
-
-    Vue.prototype.$axios = _axios
-    Vue.prototype.$http = {
-      get(url, query, option = {}) {
-        return _axios({
-          ...option,
-          ...{
-            method: 'GET',
-            url,
-            params: query
-          },
-        })
-      },
-      post(url, body, option = {}) {
-        return _axios({
-          ...option,
-          ...{
-            method: 'POST',
-            url,
-            data: body,
-            headers: { 'Content-Type': 'application/json' },
-          },
-        })
-      },
-      put(url, body, option = {}) {
-        return _axios({
-          ...option,
-          ...{
-            method: 'PUT',
-            url,
-            data: body,
-            headers: { 'Content-Type': 'application/json' },
-          },
-        })
-      },
-      delete(url, option = {}) {
-        return _axios({
-          ...option,
-          ...{
-            method: 'DELETE',
-            url,
-          }
-        })
+    // init globalDefaults
+    const objectDefaults = /^(common|get|post|put|delete|head|patch)$/
+    for (let key in globalDefaults) {
+      const val = globalDefaults[key]
+      if (objectDefaults.test(key)) {
+        axios.defaults[key] = { ...axios.defaults[key], ...val }
+      } else {
+        axios.defaults[key] = val
       }
     }
+
+    // init interceptors
+    ;['request', 'requestError', 'response', 'responseError'].forEach(fname => {
+      if (typeof interceptors[fname] === 'function') {
+        this[`${fname}Interceptor`] = interceptors[fname]
+      } else if (/Error/.test(fname)) {
+        this[`${fname}Interceptor`] = error => Promise.reject(error)
+      } else {
+        this[`${fname}Interceptor`] = argument => argument
+      }
+    })
+
+    // init instance
+    const _axios = axios.create(defaults)
+    _axios.interceptors.request.use(this.requestInterceptor, this.requestErrorInterceptor)
+    _axios.interceptors.response.use(this.responseInterceptor, this.responseErrorInterceptor)
+
+    // set on Vue and Vue instance
+    ;[Vue, Vue.prototype].forEach(obj => {
+      Object.defineProperties(obj, {
+        $axios: {
+          value: _axios,
+        },
+        $http: {
+          value: _axios,
+        },
+      })
+    })
   },
-
-  _axios: null,
-
-  _requestInterceptor: config => config,
-
-  _requestErrorInterceptor: error => Promise.reject(error),
-
-  _responseInterceptor: response => response,
-
-  _responseErrorInterceptor: error => Promise.reject(error),
 }
