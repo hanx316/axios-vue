@@ -5,11 +5,10 @@ export default {
     const { globalDefaults = {}, defaults = {}, interceptors = {} } = options
 
     // init globalDefaults
-    const objectDefaults = /^(common|get|post|put|delete|head|patch)$/
     for (let key in globalDefaults) {
       const val = globalDefaults[key]
-      if (objectDefaults.test(key)) {
-        axios.defaults[key] = { ...axios.defaults[key], ...val }
+      if (key === 'headers') {
+        axios.defaults.headers = { ...axios.defaults.headers, ...{ ...val } }
       } else {
         axios.defaults[key] = val
       }
