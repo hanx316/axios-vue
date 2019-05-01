@@ -21,7 +21,7 @@ import axiosVue from 'axios-vue'
 
 Vue.use(axiosVue)
 
-// You can also declare global default configs and instance configs in plugin options
+// You can also declare global default configs and instance configs in plugin options.
 Vue.use(axiosVue, {
   globalDefaults: {
     baseURL: 'https://api.example.com',
@@ -35,7 +35,8 @@ Vue.use(axiosVue, {
       // ...
     },
     // ...
-  }.
+  },
+
   default: {
     baseURL: 'https://api.example.com',
     headers: {
@@ -61,6 +62,7 @@ axiosVue.responseInterceptor = function(config) {
 axiosVue.responseErrorInterceptor = function(error) {
   return Promise.reject(error)
 }
+
 // or
 Vue.use(axiosVue, {
   interceptors: {
