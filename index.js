@@ -5,12 +5,15 @@ export default {
     const { globalDefaults = {}, defaults = {}, interceptors = {} } = options
 
     // init globalDefaults
+    // In axios configs, only headers are deep merged. Others (fn or fn array) are replaced with new val.
     for (let key in globalDefaults) {
-      const val = globalDefaults[key]
+      if (!globalDefaults.hasOwnProperty(key)) continue
       if (key === 'headers') {
-        axios.defaults.headers = { ...axios.defaults.headers, ...{ ...val } }
+        for (let header in globalDefaults.headers) {
+          Object.assign(axios.defaults.headers[header], globalDefaults.headers[header])
+        }
       } else {
-        axios.defaults[key] = val
+        axios.defaults[key] = globalDefaults[key]
       }
     }
 
