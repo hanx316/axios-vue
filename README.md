@@ -56,8 +56,8 @@ axiosVue.requestInterceptor = function(config) {
 axiosVue.requestErrorInterceptor = function(error) {
   return Promise.reject(error)
 }
-axiosVue.responseInterceptor = function(config) {
-  return config
+axiosVue.responseInterceptor = function(response) {
+  return response
 }
 axiosVue.responseErrorInterceptor = function(error) {
   return Promise.reject(error)
@@ -72,8 +72,8 @@ Vue.use(axiosVue, {
     requestError(error) {
       Promise.reject(error)
     },
-    response(config) {
-      return config
+    response(response) {
+      return response
     },
     responseError(error) {
       Promise.reject(error)
