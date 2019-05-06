@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default {
-  install(Vue, options) {
+  install(Vue, options = {}) {
     const { globalDefaults = {}, defaults = {}, interceptors = {} } = options
 
     // init globalDefaults
