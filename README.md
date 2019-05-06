@@ -80,6 +80,6 @@ Vue.use(axiosVue, {
     },
   },
 })
-// If both two ways are used, methods in options will override.
+// If both two ways are used, methods in options will override those outer fns.
 // Actually, the four functions above will be set by default in this plugin.
 ```
