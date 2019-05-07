@@ -14,7 +14,7 @@ Tired of integrating axios in Vue.js projects time to time. This plugin package 
 npm i axios-vue -S
 ```
 
-#### Use in Vue projects' main or index file
+#### Init in Vue projects' main or index file
 
 ```js
 import axiosVue from 'axios-vue'
@@ -82,4 +82,21 @@ Vue.use(axiosVue, {
 })
 // If both two ways are used, methods in options will override those outer fns.
 // Actually, the four functions above will be set by default in this plugin.
+```
+
+#### The usage in Vue components
+
+```js
+// Same as axios()
+this.$http()
+this.$axios()
+// Can get axios instance on Vue constructor
+Vue.$http()
+Vue.$axios()
+
+// Same as methods(get, post, put etc.) on axios
+this.$http.get().then()
+this.$axios.get().then()
+Vue.$http.get().then()
+Vue.$axios.get().then()
 ```
