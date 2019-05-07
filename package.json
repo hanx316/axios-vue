@@ -1,13 +1,20 @@
 {
   "name": "axios-vue",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Integrate axios to Vue.js project as a Vue Plugin.",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Samhanx/axios-vue.git"
   },
-  "keywords": ["axios", "vue", "axios-vue", "vue-axios", "axios wrapper", "vue-plugin"],
+  "keywords": [
+    "axios",
+    "vue",
+    "axios-vue",
+    "vue-axios",
+    "axios wrapper",
+    "vue-plugin"
+  ],
   "author": "Hanx",
   "license": "ISC",
   "bugs": {
