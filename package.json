@@ -1,6 +1,6 @@
 {
   "name": "axios-vue",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Integrate axios to Vue.js project as a Vue Plugin.",
   "main": "index.js",
   "repository": {
